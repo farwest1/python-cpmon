@@ -3,6 +3,7 @@ import connectivity as conn
 from flask import Flask
 from flask import jsonify
 from flask import render_template
+import cpmondb
 
 
 
@@ -25,10 +26,19 @@ def testEnco():
 #TODO: ensure that this servers only GET requests
 @app.route("/connectionpoints", methods=['GET'])
 def getConnectionPoints():
-    connections = [
-                    {"ip":"127.0.0.1","port":"2376"},
-                    {"ip":"192.168.2.11","port":"2376"},
-                    {"ip":"192.168.2.103","port":"2376"}]
+    connections = []
+    rows = cpmondb.getConnectionPointsAll()
+    for row in rows:
+        conn = {
+            "ip": row[0],
+            "port":str(row[1])
+        }
+        connections.append(conn)
+
+    # connections = [
+    #                {"ip":"127.0.0.1","port":"2376"},
+    #                {"ip":"192.168.2.11","port":"2376"},
+    #                {"ip":"192.168.2.103","port":"2376"}]
     jresp = jsonify(connections)
     app.logger.debug(jresp)
     return (jresp, 200, {"Content-Type": 'application/json'})

@@ -35,6 +35,7 @@ def getConnectionPoints():
         }
         connections.append(conn)
 
+        # This can be removed
     # connections = [
     #                {"ip":"127.0.0.1","port":"2376"},
     #                {"ip":"192.168.2.11","port":"2376"},

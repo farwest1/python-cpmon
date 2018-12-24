@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Overview{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th> IP Address </th>
+        <th> Port </th>
+        <th> Status </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for conn in conns  %}
+        <tr>
+          <td>{{ conn['ip'] }}</td>
+          <td>{{ conn['port'] }}</td>
+          {% if conn['status'] == 0  %}
+            <td> OK </td>
+          {% else %}
+            <td class="text-danger"> failed </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

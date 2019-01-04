@@ -49,3 +49,8 @@ def healthCheck():
     conn.checkConnectionPoints()
     app.logger.debug(str(conn.conns))
     return render_template('hello.html', conns=conn.conns, filtered=filtered), 200, my_headers
+
+
+if __name__ == '__main__':
+port = int(os.environ.get('PORT', 5000)) 
+app.run(host='0.0.0.0', port=port, debug=True)

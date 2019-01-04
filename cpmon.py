@@ -3,6 +3,7 @@ import connectivity as conn
 from flask import Flask
 from flask import jsonify
 from flask import render_template
+from flask import request
 import cpmondb
 
 
@@ -24,30 +25,27 @@ def testEnco():
     return r.text
 
 #TODO: ensure that this servers only GET requests
-@app.route("/connectionpoints", methods=['GET'])
-def getConnectionPoints():
-    connections = []
-    rows = cpmondb.getConnectionPointsAll()
-    for row in rows:
-        conn = {
-            "ip": row[0],
-            "port":str(row[1])
-        }
-        connections.append(conn)
-
-        # This can be removed
-    # connections = [
-    #                {"ip":"127.0.0.1","port":"2376"},
-    #                {"ip":"192.168.2.11","port":"2376"},
-    #                {"ip":"192.168.2.103","port":"2376"}]
-    jresp = jsonify(connections)
-    app.logger.debug(jresp)
-    return (jresp, 200, {"Content-Type": 'application/json'})
+# @app.route("/connectionpoints", methods=['GET'])
+# def getConnectionPoints():
+#     connections = []
+#     rows = cpmondb.getConnectionPointsAll()
+#     for row in rows:
+#         conn = {
+#             "ip": row[0],
+#             "port":str(row[1])
+#         }
+#         connections.append(conn)
+#
+#     jresp = jsonify(connections)
+#     app.logger.debug(jresp)
+#     return (jresp, 200, {"Content-Type": 'application/json'})
 
 @app.route("/management/health")
 def healthCheck():
+    filtered = "True" if( request.args.get('exampleCheck1')) else "False"
+
     #first set the headers
     my_headers = {"X-Config":"blabla"}
     conn.checkConnectionPoints()
     app.logger.debug(str(conn.conns))
-    return render_template('hello.html', conns=conn.conns), 200, my_headers
+    return render_template('hello.html', conns=conn.conns, filtered=filtered), 200, my_headers

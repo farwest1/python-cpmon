@@ -15,6 +15,19 @@
     </thead>
     <tbody>
       {% for conn in conns  %}
+        {% if filtered == 'True' %}
+          {% if conn['status'] is ne(0) %}
+            <tr>
+              <td>{{ conn['ip'] }}</td>
+              <td>{{ conn['port'] }}</td>
+              {% if conn['status'] == 0  %}
+                <td> OK </td>
+              {% else %}
+                <td class="text-danger"> failed </td>
+              {% endif %}
+            </tr>
+          {% endif %}
+        {% else %}
         <tr>
           <td>{{ conn['ip'] }}</td>
           <td>{{ conn['port'] }}</td>
@@ -24,7 +37,16 @@
             <td class="text-danger"> failed </td>
           {% endif %}
         </tr>
+        {% endif %}
       {% endfor %}
+
     </tbody>
   </table>
+  <form>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" name="exampleCheck1" value="filtered" {% if filtered == 'True' %}checked{% endif %}>
+      <label class="form-check-label" for="exampleCheck1">Show only entries with status &quotfailed&quot</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+  </form>
 {% endblock %}

@@ -1,3 +1,4 @@
+import os
 import requests
 import connectivity as conn
 from flask import Flask
@@ -52,5 +53,5 @@ def healthCheck():
 
 
 if __name__ == '__main__':
-port = int(os.environ.get('PORT', 5000)) 
-app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)

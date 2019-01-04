@@ -1,1 +1,1 @@
-web: gunicorn -b 0.0.0.0:$PORT app:cpmon
+web: gunicorn -b 0.0.0.0:$PORT cpmon:cpmon

@@ -19,6 +19,8 @@ class cpcheck(threading.Thread):
 
     def run(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # set socket timeout to one second
+        sock.settimeout(1)
         result = sock.connect_ex((self.ip,int(self.port)))
         app.logger.debug("Result for Address %s: %s", self.ip, result)
         self._result = result
